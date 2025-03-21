@@ -229,7 +229,12 @@ echo "full length hits transparency: $FULL_ALPHA"
 ## MAIN WRAPPER
 
 # make a genome blastn database, supress warnings if already exists
-makeblastdb -in $GENOME -out $GENOME -dbtype 'nucl' &>/dev/null
+# makeblastdb -in $GENOME -out $GENOME -dbtype 'nucl' &>/dev/null #needs to use the one created by MCHelper
+if [ ! -f $GENOME.nsq ]; then
+    echo "Genome database not existing"
+    makeblastdb -in $GENOME -out $GENOME -dbtype 'nucl' &>/dev/null #needs to use the one created by MCHelper
+    exit 1
+fi
 
 # clean working from possible parasitic orftables
 if [ -f $OUTPUT/TE.blastp.out ]
